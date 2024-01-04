@@ -98,13 +98,7 @@ const registerForm=()=>{
     }
 
     else{
-      {users.map((user, index) => (
-        user.email === records.email ? (
-          <li key={index}>{user.email} matches records.email</li>
-        ) : (
-          <li key={index}>{user.email} does not match records.email</li>
-        )
-      ))}
+      
 
       axios.post(api_url, records)
       .then((result) => {
