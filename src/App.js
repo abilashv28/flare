@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Login from './components/Login';
+import Usersprofile from './components/Usersprofile';
+//import Register from './components/Register';
+import {BrowserRouter, Routes, Route,Link} from "react-router-dom";
+import Register from './components/Register';
 
 function App() {
+  const api_key = "240c6de4cb084575bebfe202470d1ffe";
+  
+  const api_url = "https://crudcrud.com/api/"+api_key+"/reg";
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+    
+    <Routes>
+    <Route path ="/" element={<Register api_url={api_url} />}/>
+    <Route path ="/login" element={<Login api_url={api_url} />}/>
+    <Route path ="/usersprofile" element={<Usersprofile api_url={api_url} />}/>
+    </Routes>
+    
+    </BrowserRouter>
     </div>
   );
 }
