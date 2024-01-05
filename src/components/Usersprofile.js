@@ -30,7 +30,7 @@ const Usersprofile = ({ api_url }) => {
   document.getElementsByTagName("body")[0].style.background = "linear-gradient(#141e30, #243b55)";
   const [designn, setdesignn] = useState('');
   const [currdetails, setcurrdetails] = useState({
-    // user_id:"",
+    username:"",
     mobile: "",
     email: "",
     role: "",
@@ -47,7 +47,7 @@ const Usersprofile = ({ api_url }) => {
     }
     setcurrdetails({
 
-      // user_id:overalldetailss[e].user_id,
+      username:overalldetailss[e].username,
       mobile: overalldetailss[e].mobile,
       email: overalldetailss[e].email,
       role: overalldetailss[e].role,
@@ -75,9 +75,9 @@ const Usersprofile = ({ api_url }) => {
     if (sessionStorage.getItem("edit") === 'emp') {
       sessionStorage.setItem("editing", "1");
       let details = JSON.parse(window.sessionStorage.user_details);
-      console.log(details);
       setcurrdetails({
         // user_id:details.user_id,
+        username: details.username,
         mobile: details.mobile,
         email: details.email,
         role: details.role,
@@ -86,10 +86,10 @@ const Usersprofile = ({ api_url }) => {
       })
     }
     else {
-      console.log(overalldetailss);
+      console.log(overalldetailss[e].username,'yyy');
       console.log(e);
       setcurrdetails({
-        user_id: overalldetailss[e]._id,
+        username: overalldetailss[e].username,
         mobile: overalldetailss[e].mobile,
         email: overalldetailss[e].email,
         role: overalldetailss[e].role,
@@ -105,11 +105,11 @@ const Usersprofile = ({ api_url }) => {
     setcurrdetails({ ...currdetails, [e.target.name]: e.target.value });
     console.log(e.target.name);
   }
-  const Update = () => {
-    axios.put(api_url + '/reg', currdetails).
-      then((result) => {
-      });
-  }
+  // const Update = () => {
+  //   axios.put(api_url + '/reg', currdetails).
+  //     then((result) => {
+  //     });
+  // }
   const Delete = (id, dbid) => {
     let overalldetailss = [];
     overalldetailss = overalldetails;
@@ -118,8 +118,8 @@ const Usersprofile = ({ api_url }) => {
       overalldetailss = JSON.parse(localStorage.getItem("overalldetails"));
     }
 
-    axios.delete(api_url + '/reg/' + dbid).
-      then((result) => {
+    axios.delete(api_url +'/'+ dbid)
+      .then((result) => {
         let details = overalldetailss;
         console.log(details);
         details.splice(parseInt(id), 1);
@@ -132,13 +132,19 @@ const Usersprofile = ({ api_url }) => {
   const design = () => {
     let details = JSON.parse(window.sessionStorage.user_details);
     console.log(details);
-    axios.get(api_url + '/reg', details).
+    axios.get(api_url, details).
       then((result) => {
-        console.log(result.data);
+        console.log(result.data,'ddd');
         let d = result.data.map((a, i) => {
 
           return (
-            <tbody><tr><td>{i + 1}</td><td>{a._id}</td><td>{a.email}</td><td>{a.mobile}</td><td>{a.role}</td><td>{a.skills}</td><td ><i rowid={i} dbid={a._id} onClick={(e) => View(e.target.getAttribute("rowid"),)} className="fa fa-eye"></i></td><td ><i rowid={i} dbid={a._id} onClick={(e) => Edit(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-edit"></i></td><td><i dbid={a._id} rowid={i} onClick={(e) => Delete(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-trash-o"></i></td></tr></tbody>
+            <tbody><tr><td>{i + 1}</td><td>{a.username}</td><td>{a.email}</td><td>{a.mobile}</td> <td>
+            {a.role === 1
+              ? 'Admin'
+              : a.role === 2
+              ? 'Manager'
+              : 'Employee'}
+          </td><td>{a.skills}</td><td ><i rowid={i} dbid={a._id} onClick={(e) => View(e.target.getAttribute("rowid"),)} className="fa fa-eye"></i></td><td ><i rowid={i} dbid={a._id} onClick={(e) => Edit(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-edit"></i></td><td><i dbid={a._id} rowid={i} onClick={(e) => Delete(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-trash-o"></i></td></tr></tbody>
           )
 
         });
@@ -166,7 +172,7 @@ const Usersprofile = ({ api_url }) => {
 
 
   var modal = document.getElementById("myModal");
- 
+
 
   window.onclick = function (event) {
     if (event.target == modal) {
@@ -179,7 +185,7 @@ const Usersprofile = ({ api_url }) => {
   const btnn = () => {
     modal.style.display = "block";
   }
- 
+
 
   return (
     <div>
@@ -195,24 +201,37 @@ const Usersprofile = ({ api_url }) => {
 
 
           <div id="myModal" className="modal">
-
             <div className="modal-content">
               <div >
-
               </div>
               <div className="modal-body">
                 <span onClick={spann} className="close">&times;</span>
-                <div className='alignment'>
-                  <div>
-                    <label htmlFor=""> Userid </label>&nbsp;
-                    <input className="right" type="text" id="user_id" name="user_id" onChange={(e) => handlemodalchange(e)} value={currdetails.user_id} /> &nbsp;
-                    <label htmlFor=""> Mobile </label>&nbsp;
-                    <input className="right" type="text" name='mobile' onChange={(e) => handlemodalchange(e)} value={currdetails.mobile} id="mobile" /><br></br><br></br>
+                <div className='row'>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> User Name </label>
                   </div>
-                  <div>
-                    <label htmlFor=""> Email </label>&nbsp;&nbsp;
-                    <input className="right" type="text" id="email" name='email' onChange={(e) => handlemodalchange(e)} value={currdetails.email} />&nbsp;
-                    &nbsp;<label htmlFor=""> Role </label>&nbsp;
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" id="user_id" name="user_id" onChange={(e) => handlemodalchange(e)} value={currdetails.username} />
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                  <label htmlFor=""> Mobile </label>
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" name='mobile' onChange={(e) => handlemodalchange(e)} value={currdetails.mobile} id="mobile" />
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Email </label>
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" id="email" name='email' onChange={(e) => handlemodalchange(e)} value={currdetails.email} />
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Role </label>
+                  </div>
+                  <div className='col-md-6 adjustment'>
                     <select className='form-control' onChange={(e) => handlemodalchange(e)} value={currdetails.role}>
                       <option value=''>Select Role</option>
                       <option value='1'>Admin</option>
@@ -220,15 +239,18 @@ const Usersprofile = ({ api_url }) => {
                       <option value='3'>Employee</option>
                     </select>
                   </div>
-                  <div>
-                    <label htmlFor=""> Skills </label>&nbsp;&nbsp;&nbsp;
-                    <input className="right" onChange={(e) => handlemodalchange(e)} value={currdetails.skills} name='skills' type="text" id="skills" />&nbsp;
-
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Skills </label>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" onChange={(e) => handlemodalchange(e)} value={currdetails.skills} name='skills' type="text" id="skills" />;
                   </div>
                 </div>
-
+                <div>
+                </div>
+                <div>
+                </div>
                 <input className='hidden' id='file' type="file" name="image" />
-
               </div>
               <div className="modal-footer">
                 <button id='imggg' onClick={Imgupload} alt="Avatar" > Update </button>
@@ -248,12 +270,14 @@ const Usersprofile = ({ api_url }) => {
           <br /> <br />
           <div className='emp'>
 
-            <img className='profile-pics2' src={'http://localhost:3001/' + currdetails.photo} />
-
-            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>User_Id</div><div className='col lbl'>{currdetails.user_id}</div></div> <br />
+            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>User_Id</div><div className='col lbl'>{currdetails.username}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Email</div><div className='col lbl'>{currdetails.email}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Mobile</div><div className='col lbl'>{currdetails.mobile}</div></div> <br />
-            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Role</div><div className='col lbl'>{currdetails.role}</div></div> <br />
+            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Role</div><div className='col lbl'>{currdetails.role === 1
+              ? 'Admin'
+              : currdetails.role === 2
+              ? 'Manager'
+              : 'Employee'}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Skills</div><div className='col lbl'>{currdetails.skills}</div></div> <br />
           </div>
         </div>

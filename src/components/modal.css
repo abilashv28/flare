@@ -202,3 +202,10 @@ i{
   background-color: #243b55;
   color: white;
 }
+
+.adjustment{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
