@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Register from './components/Register';
 
 function App() {
-  const api_key = "0f57f0f16bf14883802434c450182b88";
+  const api_key = "f1dba476e20b4e12a2b12b0cc9846574";
   const api_url = "https://crudcrud.com/api/" + api_key + "/reg";
 
   return (

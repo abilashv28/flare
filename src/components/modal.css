@@ -209,3 +209,9 @@ i{
   justify-content: center;
   align-items: center;
 }
+label{
+  color:#000;
+}
+.tooltippie{
+  cursor: not-allowed;
+}

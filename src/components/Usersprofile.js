@@ -54,7 +54,10 @@ const Usersprofile = ({ api_url }) => {
       skills: overalldetailss[e].skills,
       photo: overalldetailss[e].img_path
     })
-    document.getElementById('viewdetail').classList.remove('hidden')
+    // document.getElementById('viewdetail').classList.remove('hidden')
+    document.getElementById('myBtnn').click();
+
+
   }
   useEffect(() => {
     console.log(overalldetails);
@@ -139,9 +142,9 @@ const Usersprofile = ({ api_url }) => {
 
           return (
             <tbody><tr><td>{i + 1}</td><td>{a.username}</td><td>{a.email}</td><td>{a.mobile}</td> <td>
-            {a.role === 1
+            {a.role == 1
               ? 'Admin'
-              : a.role === 2
+              : a.role == 2
               ? 'Manager'
               : 'Employee'}
           </td><td>{a.skills}</td><td ><i rowid={i} dbid={a._id} onClick={(e) => View(e.target.getAttribute("rowid"),)} className="fa fa-eye"></i></td><td ><i rowid={i} dbid={a._id} onClick={(e) => Edit(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-edit"></i></td><td><i dbid={a._id} rowid={i} onClick={(e) => Delete(e.target.getAttribute("rowid"), e.target.getAttribute("dbid"))} className="fa fa-trash-o"></i></td></tr></tbody>
@@ -150,7 +153,7 @@ const Usersprofile = ({ api_url }) => {
         });
         setdesignn(() => {
           return (
-            <table className='table table-striped'><thead><tr><th>Sno</th><th>User_Id</th><th>Email</th><th>Mobile</th><th>Role</th><th>Skills</th><th>View</th><th>Edit</th><th>Delete</th></tr></thead>
+            <table className='table table-striped'><thead><tr><th>Sno</th><th>User Name</th><th>Email</th><th>Mobile</th><th>Role</th><th>Skills</th><th>View</th><th>Edit</th><th>Delete</th></tr></thead>
               {d}
             </table>
           )
@@ -172,11 +175,14 @@ const Usersprofile = ({ api_url }) => {
 
 
   var modal = document.getElementById("myModal");
+  var modall = document.getElementById("myModall");
+
 
 
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
+      modall.style.display = "none"
     }
   }
   const spann = () => {
@@ -185,12 +191,18 @@ const Usersprofile = ({ api_url }) => {
   const btnn = () => {
     modal.style.display = "block";
   }
+  const spannn = () => {
+    modall.style.display = "none";
+  }
+  const btnnn = () => {
+    modall.style.display = "block";
+  }
 
 
   return (
     <div>
       <a className='right register' href='/'>Register</a>
-      <a className='right login' href='/login'>Login</a>
+      <a className='right login' href='/login'>Log Out</a>
       <div>
         <div className='users'>
 
@@ -198,6 +210,8 @@ const Usersprofile = ({ api_url }) => {
 
 
           <button className='hidden' id="myBtn" onClick={btnn}>Open Modal</button>
+          <button className='hidden' id="myBtnn" onClick={btnnn}>Open Modal</button>
+
 
 
           <div id="myModal" className="modal">
@@ -211,7 +225,7 @@ const Usersprofile = ({ api_url }) => {
                     <label htmlFor=""> User Name </label>
                   </div>
                   <div className='col-md-6 adjustment'>
-                    <input className="form-control" type="text" id="user_id" name="user_id" onChange={(e) => handlemodalchange(e)} value={currdetails.username} />
+                    <input className="form-control tooltippie" type="text" id="user_id" name="user_id" onChange={(e) => handlemodalchange(e)} value={currdetails.username} />
                   </div>
                   <div className='col-md-6 adjustment'>
                   <label htmlFor=""> Mobile </label>
@@ -232,7 +246,7 @@ const Usersprofile = ({ api_url }) => {
                     <label htmlFor=""> Role </label>
                   </div>
                   <div className='col-md-6 adjustment'>
-                    <select className='form-control' onChange={(e) => handlemodalchange(e)} value={currdetails.role}>
+                    <select className='form-control tooltippie' onChange={(e) => handlemodalchange(e)} value={currdetails.role} disabled>
                       <option value=''>Select Role</option>
                       <option value='1'>Admin</option>
                       <option value='2'>Manager</option>
@@ -259,6 +273,66 @@ const Usersprofile = ({ api_url }) => {
 
           </div>
 
+          <div id="myModall" className="modal">
+            <div className="modal-content">
+              <div >
+              </div>
+              <div className="modal-body">
+                <span onClick={spannn} className="close">&times;</span>
+                <div className='row'>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> User Name </label>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" id="user_id" name="user_id" onChange={(e) => handlemodalchange(e)} value={currdetails.username} readOnly
+                    />
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                  <label htmlFor=""> Mobile </label>
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" name='mobile' onChange={(e) => handlemodalchange(e)} value={currdetails.mobile} id="mobile" readOnly/>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Email </label>
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" type="text" id="email" name='email' onChange={(e) => handlemodalchange(e)} value={currdetails.email} readOnly/>
+
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Role </label>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <select className='form-control' onChange={(e) => handlemodalchange(e)} value={currdetails.role} disabled>
+                      <option value=''>Select Role</option>
+                      <option value='1'>Admin</option>
+                      <option value='2'>Manager</option>
+                      <option value='3'>Employee</option>
+                    </select>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <label htmlFor=""> Skills </label>
+                  </div>
+                  <div className='col-md-6 adjustment'>
+                    <input className="form-control" onChange={(e) => handlemodalchange(e)} value={currdetails.skills} name='skills' type="text" id="skills" readOnly/>;
+                  </div>
+                </div>
+                <div>
+                </div>
+                <div>
+                </div>
+                <input className='hidden' id='file' type="file" name="image" />
+              </div>
+              <div className="modal-footer">
+                {/* <button id='imggg' onClick={Imgupload} alt="Avatar" > Update </button> */}
+              </div>
+            </div>
+
+          </div>
+
 
         </div>
       </div>
@@ -270,12 +344,12 @@ const Usersprofile = ({ api_url }) => {
           <br /> <br />
           <div className='emp'>
 
-            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>User_Id</div><div className='col lbl'>{currdetails.username}</div></div> <br />
+            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>User Name</div><div className='col lbl'>{currdetails.username}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Email</div><div className='col lbl'>{currdetails.email}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Mobile</div><div className='col lbl'>{currdetails.mobile}</div></div> <br />
-            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Role</div><div className='col lbl'>{currdetails.role === 1
+            <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Role</div><div className='col lbl'>{currdetails.role == 1
               ? 'Admin'
-              : currdetails.role === 2
+              : currdetails.role == 2
               ? 'Manager'
               : 'Employee'}</div></div> <br />
             <div className='row'><div className='col lbl' style={{ fontWeight: "700", fontSize: "18px" }}>Skills</div><div className='col lbl'>{currdetails.skills}</div></div> <br />
