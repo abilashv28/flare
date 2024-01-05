@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/flare/static/css/main.94206aa4.css",
-    "main.js": "/flare/static/js/main.80e02b53.js",
+    "main.js": "/flare/static/js/main.15ea96f5.js",
     "index.html": "/flare/index.html",
     "main.94206aa4.css.map": "/flare/static/css/main.94206aa4.css.map",
-    "main.80e02b53.js.map": "/flare/static/js/main.80e02b53.js.map"
+    "main.15ea96f5.js.map": "/flare/static/js/main.15ea96f5.js.map"
   },
   "entrypoints": [
     "static/css/main.94206aa4.css",
-    "static/js/main.80e02b53.js"
+    "static/js/main.15ea96f5.js"
   ]
 }
